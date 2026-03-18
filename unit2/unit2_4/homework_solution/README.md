@@ -243,7 +243,6 @@ This solution uses multiple layers:
 | Authorization       | Role-based access control          | Restrict actions based on user permissions   |
 | Data Protection     | Ownership validation               | Ensure users access only their own data      |
 | Logic Validation    | Input constraints (e.g., amount > 0)| Prevent workflow and business logic abuse    |
-This solution uses multiple layers:
 
 
 ---
