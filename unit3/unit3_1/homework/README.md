@@ -36,7 +36,7 @@ The application contains:
 ### Task 1 – Basic Pipeline
 
 Run provided workflow:
-- sast-basic.yml
+- sast-basic.yml (.github/workflows/)
 
 ---
 
