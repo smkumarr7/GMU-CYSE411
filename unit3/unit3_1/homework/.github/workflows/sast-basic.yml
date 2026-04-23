@@ -1,4 +1,4 @@
-name: SAST Basic
+name: SAST Basic Scan
 
 on: [push]
 
