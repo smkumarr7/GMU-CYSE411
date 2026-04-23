@@ -1,4 +1,4 @@
-name: Dependency Check (Manual)
+name: Dependency Check Workflow (Manual)
 
 on:
   workflow_dispatch:
