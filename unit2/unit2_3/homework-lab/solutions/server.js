@@ -2,13 +2,9 @@ const express = require('express');
 
 const app = express();
 
-/**
- * SOLUTION (reference):
- * - Output encoding for reflected input
- * - Secure cookie flags (HttpOnly + SameSite + Secure in production only)
- * - CSP header (default-src 'self'; script-src 'self')
- */
-
+// !!! FIXING REFLECTED XSS
+// !!! The following code fixes reflected XSS by replacing special characters in the `name` parameter with their corresponding HTML entities
+// preventing malicious scripts from being executed when the parameter is reflected in the HTML response.
 function escapeHtml(s) {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -19,6 +15,7 @@ function escapeHtml(s) {
 }
 
 // CSP for all responses (defense-in-depth)
+/// !!! The following code adds a Content Security Policy (CSP) header to all responses, restricting resource loading to the same origin and allowing scripts only from the same origin. 
 app.use((req, res, next) => {
   res.setHeader(
     'Content-Security-Policy',
@@ -28,12 +25,15 @@ app.use((req, res, next) => {
 });
 
 app.get('/login', (req, res) => {
+  // !!! The following line checks if the application is running in production mode and sets the `secure` flag on the session cookie accordingly. 
+  // This ensures that the cookie is only sent over HTTPS in production, while allowing it to work in development environments without HTTPS.
   const isProd = process.env.NODE_ENV === 'production';
 
+  /// !!! The following code sets a secure session cookie with appropriate flags to enhance security.
   res.cookie('sessionId', 'SESSION-ABC-123', {
-    httpOnly: true,
-    sameSite: 'lax',      // tests accept lax or strict
-    secure: isProd        // true only in production (HTTPS expected)
+    httpOnly: true,       // JavaScript CANNOT access the cookie
+    sameSite: 'lax',      // tests accept lax or strict --> Cookie only sent on safe requests
+    secure: isProd        // true only in production (HTTPS expected). HTTP allowed if false (HTTP needed locally)
   });
 
   res.send(`
@@ -44,6 +44,7 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/profile', (req, res) => {
+  /// !!! The following code retrieves the `name` parameter from the query string, applies output encoding to prevent XSS, and then embeds it safely into the HTML response.
   const name = escapeHtml(req.query.name || 'Guest');
 
   res.send(`
