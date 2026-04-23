@@ -1,0 +1,8 @@
+rules:
+  - id: detect-eval
+    pattern: eval(...)
+    message: "Avoid using eval()"
+    languages:
+      - javascript
+    severity: ERROR
+    # eval() executes whatever string you pass into it as code.
