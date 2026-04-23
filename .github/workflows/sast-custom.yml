@@ -8,10 +8,18 @@ on:
 jobs:
   semgrep:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Semgrep
+        run: pip install semgrep
 
       - name: Run custom Semgrep rule
-        run: |
-          docker run --rm -v "${{ github.workspace }}:/src" returntocorp/semgrep \
-          semgrep --config=semgrep/custom-rule.yaml --error /src
+        run: semgrep --config=semgrep/custom-rule.yaml .
