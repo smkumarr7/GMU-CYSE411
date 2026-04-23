@@ -1,4 +1,4 @@
-name: SBOM and Grype
+name: SBOM and Grype Workflow
 
 on:
   workflow_dispatch:
