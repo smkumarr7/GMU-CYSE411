@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run custom rule
+      - name: Run custom Semgrep rule
         run: |
           docker run --rm -v "${{ github.workspace }}:/src" returntocorp/semgrep \
-          semgrep --config=/src/semgrep/custom-rule.yaml --error /src
+          semgrep --config=semgrep/custom-rule.yaml --error /src
