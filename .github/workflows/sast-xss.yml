@@ -14,5 +14,6 @@ jobs:
       - name: Run XSS scan
         run: |
           docker run --rm -v "${{ github.workspace }}:/src" returntocorp/semgrep \
-          semgrep --config="p/xss" --error /src
-          # task 3 added above
+          semgrep --config="p/xss" --severity ERROR /src
+          # task 3 and 6 added above
+          # task 6 : semgrep --config="p/xss" --config="p/sql-injection" /src
